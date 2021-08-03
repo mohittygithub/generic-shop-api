@@ -23,7 +23,7 @@ public class User {
 	@Column(length = 50, nullable = false)
 	private String name;
 	
-	@Column(length = 50, nullable = false, unique = true)
+	@Column(length = 50, unique = true)
 	private String username;
 	
 	@Column(length = 100, nullable = false, unique = true)
@@ -51,7 +51,7 @@ public class User {
 	@Column(name="is_active", nullable = false)
 	private boolean isActive;
 	
-	@Column(name="created_at", nullable = false)
+	@Column(name="created_at")
 	private Date createdAt;
 	
 	@Column(name="updated_at", nullable = false)

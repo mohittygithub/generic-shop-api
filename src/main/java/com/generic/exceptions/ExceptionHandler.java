@@ -30,8 +30,8 @@ public class ExceptionHandler {
 		return new ResponseEntity(errorDetails,HttpStatus.BAD_REQUEST);
 	}
 	
-	@org.springframework.web.bind.annotation.ExceptionHandler(UserAlreadyExists.class)
-	public ResponseEntity<?> handleUserAlreadyExists(UserAlreadyExists exception, WebRequest request){
+	@org.springframework.web.bind.annotation.ExceptionHandler(UserAlreadyExistsException.class)
+	public ResponseEntity<?> handleUserAlreadyExists(UserAlreadyExistsException exception, WebRequest request){
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
 		return new ResponseEntity(errorDetails,HttpStatus.BAD_REQUEST);
 	}

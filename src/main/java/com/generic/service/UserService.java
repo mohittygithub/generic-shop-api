@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.generic.exceptions.IncompleteFormDataException;
 import com.generic.exceptions.ResourceNotFoundException;
-import com.generic.exceptions.UserAlreadyExists;
+import com.generic.exceptions.UserAlreadyExistsException;
 import com.generic.model.QueryResponse;
 import com.generic.model.User;
 import com.generic.repository.UserRepository;
@@ -46,7 +46,7 @@ public class UserService {
 			
 			Optional<User> users = userRepository.findByUsername(user.getEmail());
 			if(!users.isEmpty() && users.get() != null) {
-				throw new UserAlreadyExists("User already exists");
+				throw new UserAlreadyExistsException("User already exists");
 			}
 			user.setUsername(user.getEmail());
 			user.setPassword(bcrypt.encode(user.getPassword()));
@@ -65,11 +65,14 @@ public class UserService {
 	// update user
 	public QueryResponse updateUser(Long id, User user) throws Exception {
 		try {
-			Optional<User> users = userRepository.findByUsername(user.getUsername());
+			System.err.println(user.getId());
+			Optional<User> users = userRepository.findById(user.getId());
 			if(users.isEmpty() || users.get() == null) {
 				throw new ResourceNotFoundException("User not found");
 			}
 			
+			user.setPassword(bcrypt.encode(user.getPassword()));
+			user.setActive(user.isActive());
 			user.setUpdatedAt(new Date());
 			userRepository.save(user);
 			return new QueryResponse(new Date(), "Successful", 201, true, user);
